@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Angkas Ko — Your Community Ride, Anytime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div>
+<div class="phone-shell" id="phoneShell">
+  <div class="notch"></div>
+  <div class="statusbar"><span id="clock">9:41</span><span>●●●● 📶 🔋</span></div>
+
+  <div class="app-frame">
+
+    <!-- SPLASH -->
+    <section class="screen active" id="screen-splash">
+      <div class="splash-emblem">🏍️</div>
+      <div class="splash-greet">Kumusta! 👋</div>
+      <h1>Angkas Ko</h1>
+      <div class="splash-tag">"Your Community Ride, Anytime"</div>
+      <button class="btn btn-primary" style="padding:14px 40px;" onclick="go('login')">Get Started</button>
+      <div class="splash-dots"><span class="on"></span><span></span><span></span></div>
+    </section>
+
+    <!-- LOGIN / SIGNUP -->
+    <section class="screen" id="screen-login">
+      <div class="auth-head">
+        <div class="greet" id="authGreet">Maligayang pagdating!</div>
+        <div class="sub" id="authSub">Log in to book your ride around town.</div>
+      </div>
+      <div class="auth-body" id="loginFields" style="padding-top:6px;">
+        <div class="error-banner" id="loginError"></div>
+        <div>
+          <div class="label">Mobile Number</div>
+          <input class="field" id="loginPhone" placeholder="09XX XXX XXXX">
+        </div>
+        <div>
+          <div class="label">Password</div>
+          <input class="field" type="password" id="loginPass" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary btn-block" style="margin-top:6px;" id="loginBtn" onclick="doLogin()">Log In</button>
+        <div class="divider">demo accounts</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div class="field" style="cursor:pointer; font-size:12px;" onclick="fillDemo('09171234567','passenger123')">🧑 Passenger — 09171234567 / passenger123</div>
+          <div class="field" style="cursor:pointer; font-size:12px;" onclick="fillDemo('09171111111','driver123')">🏍️ Driver — 09171111111 / driver123</div>
+          <div class="field" style="cursor:pointer; font-size:12px;" onclick="fillDemo('09990000000','admin123')">🛠️ Admin — 09990000000 / admin123</div>
+        </div>
+        <div class="auth-switch">Don't have an account? <b onclick="showSignup()">Sign Up</b></div>
+      </div>
+
+      <div class="auth-body" id="signupFields" style="display:none; padding-top:6px;">
+        <div class="error-banner" id="signupError"></div>
+        <div class="role-toggle">
+          <div class="role-chip sel" data-role="passenger" onclick="selectRole('passenger')">🧑 Passenger</div>
+          <div class="role-chip" data-role="driver" onclick="selectRole('driver')">🏍️ Driver</div>
+        </div>
+        <div><div class="label">Full Name</div><input class="field" id="suName" placeholder="Juan Dela Cruz"></div>
+        <div><div class="label">Mobile Number</div><input class="field" id="suPhone" placeholder="09XX XXX XXXX"></div>
+        <div><div class="label">Password</div><input class="field" type="password" id="suPass" placeholder="At least 6 characters"></div>
+        <div id="driverFields" style="display:none; flex-direction:column; gap:12px;">
+          <div>
+            <div class="label">Vehicle Type</div>
+            <div class="vehicle-row" style="padding:0;">
+              <div class="vehicle-card sel" data-v="motor" onclick="selectSignupVehicle('motor')"><div class="vic">🏍️</div><div class="vname">Motor</div></div>
+              <div class="vehicle-card" data-v="tricycle" onclick="selectSignupVehicle('tricycle')"><div class="vic">🛺</div><div class="vname">Tricycle</div></div>
+              <div class="vehicle-card" data-v="car" onclick="selectSignupVehicle('car')"><div class="vic">🚗</div><div class="vname">Car</div></div>
+            </div>
+          </div>
+          <div><div class="label">Plate Number</div><input class="field" id="suPlate" placeholder="ABC 1234"></div>
+          <div><div class="label">Vehicle Description</div><input class="field" id="suVehicleDesc" placeholder="Honda Click 125i"></div>
+        </div>
+        <button class="btn btn-primary btn-block" style="margin-top:6px;" id="signupBtn" onclick="doSignup()">Create Account</button>
+        <div class="auth-switch">Already have an account? <b onclick="showLogin()">Log In</b></div>
+      </div>
+    </section>
+
+    <!-- HOME / BOOK -->
+    <section class="screen" id="screen-home">
+      <div class="home-header">
+        <div class="row1">
+          <div>
+            <div class="hi" id="homeGreet">Where to?</div>
+            <div class="loc">📍 Poblacion, Calinog, Iloilo</div>
+          </div>
+          <div class="avatar-btn" onclick="go('profile')" id="homeAvatar">•</div>
+        </div>
+      </div>
+      <div class="vehicle-row">
+        <div class="vehicle-card sel" data-v="motor" onclick="selectVehicle('motor')">
+          <div class="vic">🏍️</div><div class="vname">Motor</div><div class="vfare">₱20 base</div>
+        </div>
+        <div class="vehicle-card" data-v="tricycle" onclick="selectVehicle('tricycle')">
+          <div class="vic">🛺</div><div class="vname">Tricycle</div><div class="vfare">₱25 base</div>
+        </div>
+        <div class="vehicle-card" data-v="car" onclick="selectVehicle('car')">
+          <div class="vic">🚗</div><div class="vname">Car</div><div class="vfare">₱60 base</div>
+        </div>
+      </div>
+      <div class="book-fields">
+        <div class="loc-field"><span class="loc-dot" style="background:var(--green);"></span><input class="field" style="border:none;padding:0;" id="pickupField" value="Current Location"></div>
+        <div class="loc-field"><span class="loc-dot" style="background:var(--orange);"></span><input class="field" style="border:none;padding:0;" id="destField" placeholder="Where are you headed?" oninput="calcFare()"></div>
+      </div>
+      <div class="fare-summary">
+        <div><div class="flabel">Estimated Fare</div><div class="fval" id="fareVal">₱—</div></div>
+        <div class="pill pill-green">~<span id="etaMin">7</span> min ETA</div>
+      </div>
+      <div class="promo-row">
+        <div class="promo-chip" id="promoStudent">🎓 Student -10%</div>
+        <div class="promo-chip" id="promoSenior">👴 Senior -20%</div>
+        <div class="promo-chip">✔ Barangay Verified</div>
+      </div>
+      <div class="px" style="margin-top:16px;">
+        <div class="error-banner" id="bookError"></div>
+        <button class="btn btn-primary btn-block" id="bookBtn" onclick="bookRide()">Book Ride</button>
+      </div>
+      <div class="quick-actions">
+        <div class="qa" onclick="toast('Package delivery is on the Phase 3 roadmap 📦')"><div class="qic">📦</div><div class="qlabel">Send Package</div></div>
+        <div class="qa" onclick="toast('Food delivery is on the Phase 3 roadmap 🍜')"><div class="qic">🍜</div><div class="qlabel">Food Delivery</div></div>
+        <div class="qa" onclick="go('activity')"><div class="qic">🕓</div><div class="qlabel">Ride History</div></div>
+      </div>
+    </section>
+
+    <!-- FINDING DRIVER -->
+    <section class="screen" id="screen-finding">
+      <div class="radar">
+        <div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div>
+        <div class="radar-core">🏍️</div>
+      </div>
+      <h3 id="findingTitle">Finding you a nearby rider…</h3>
+      <p id="findingSub">Matching with verified drivers in your barangay</p>
+      <button class="btn btn-ghost" style="margin-top:26px;" onclick="cancelFinding()">Cancel Request</button>
+    </section>
+
+    <!-- TRACKING -->
+    <section class="screen" id="screen-tracking">
+      <div class="map-area">
+        <button class="backbtn" onclick="toast('Ride in progress')">←</button>
+        <button class="sos-btn" onclick="openModal('sosModal')">🆘 SOS</button>
+        <div class="map-pin" style="top:40px;left:36px;">📍</div>
+        <div class="map-pin" id="driverPin" style="top:120px;left:150px; transition:all 1s linear;">🏍️</div>
+        <div class="map-pin" style="top:210px;left:90px;">🎯</div>
+        <div class="eta-chip">⏱ <span id="trackEta">3</span> min away</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-top">
+          <div class="driver-avatar">👨</div>
+          <div>
+            <div class="driver-name" id="trackDriverName">—</div>
+            <div class="driver-sub" id="driverVehicleInfo">—</div>
+            <span class="pill pill-green" id="trackVerifiedBadge" style="margin-top:5px;">✔ Barangay Verified</span>
+          </div>
+        </div>
+        <div class="progressbar"><div class="progressbar-fill" id="rideProgress"></div></div>
+        <div class="driver-actions">
+          <button class="action-btn" onclick="toast('📞 Calling driver…')">📞 Call</button>
+          <button class="action-btn" onclick="toast('💬 Opening chat…')">💬 Chat</button>
+          <button class="action-btn" onclick="openModal('shareModal')">📍 Share Trip</button>
+        </div>
+      </div>
+      <div class="stage-list" id="stageList">
+        <div class="stage-item done" id="stageMatched"><span class="dot"></span> Driver assigned</div>
+        <div class="stage-item now" id="stagePickup"><span class="dot"></span> Rider is on the way to pickup</div>
+        <div class="stage-item" id="stageOngoing"><span class="dot"></span> Ride in progress to destination</div>
+        <div class="stage-item" id="stageDone"><span class="dot"></span> Arrived — trip complete</div>
+      </div>
+      <div class="px" style="margin-top:auto; padding-bottom:18px;">
+        <button class="btn btn-dark btn-block" id="endRideBtn" onclick="endRide()" style="display:none;">I've Arrived — End Ride</button>
+      </div>
+    </section>
+
+    <!-- RATING -->
+    <section class="screen" id="screen-rating">
+      <div class="rate-avatar">👨</div>
+      <h3 style="margin:0;" id="ratingTitle">Rate your ride</h3>
+      <p style="font-size:12.5px; color:var(--sub); margin:6px 0 0;">Your feedback keeps the community safe</p>
+      <div class="stars" id="starRow">
+        <span class="star" data-n="1">★</span><span class="star" data-n="2">★</span><span class="star" data-n="3">★</span><span class="star" data-n="4">★</span><span class="star" data-n="5">★</span>
+      </div>
+      <div class="tip-row">
+        <div class="tip-chip sel" onclick="selectTip(this,0)">No Tip</div>
+        <div class="tip-chip" onclick="selectTip(this,10)">₱10</div>
+        <div class="tip-chip" onclick="selectTip(this,20)">₱20</div>
+        <div class="tip-chip" onclick="selectTip(this,50)">₱50</div>
+      </div>
+      <div class="px" style="width:100%;">
+        <button class="btn btn-primary btn-block" id="submitRatingBtn" onclick="submitRating()">Submit Rating</button>
+      </div>
+    </section>
+
+    <!-- ACTIVITY / HISTORY -->
+    <section class="screen" id="screen-activity">
+      <div class="sectiontitle">Your Activity</div>
+      <div id="historyList"><div class="empty-state">Loading…</div></div>
+    </section>
+
+    <!-- WALLET -->
+    <section class="screen" id="screen-wallet">
+      <div class="sectiontitle">Wallet</div>
+      <div class="wallet-hero">
+        <div class="wl">Angkas Ko Wallet Balance</div>
+        <div class="wamt">₱<span id="walletAmt">0.00</span></div>
+        <div class="wallet-actions">
+          <button class="btn btn-primary" onclick="toast('Pick a quick cash-in amount below')">＋ Cash In</button>
+          <button class="btn" style="background:rgba(255,255,255,0.15); color:#fff;" onclick="go('activity')">History</button>
+        </div>
+      </div>
+      <div class="label" style="padding:16px 22px 0;">Quick Cash In</div>
+      <div id="paymentDemoNote" style="margin:6px 22px 0; font-size:11px; color:var(--sub); background:#F6F4F1; border-radius:10px; padding:8px 12px;">
+        🧪 Demo mode — no real money moves. See PAYMENT_INTEGRATION.md to wire up GCash/Maya.
+      </div>
+      <div class="topup-row">
+        <div class="topup-chip" onclick="topUp(100)">+₱100</div>
+        <div class="topup-chip" onclick="topUp(200)">+₱200</div>
+        <div class="topup-chip" onclick="topUp(500)">+₱500</div>
+      </div>
+      <div class="label" style="padding:20px 22px 0;">Payment Methods</div>
+      <div class="menu-item"><span class="mic">💵</span> Cash <span class="chev">✓</span></div>
+      <div class="menu-item"><span class="mic">📲</span> GCash / Maya <span class="chev">›</span></div>
+      <div class="menu-item"><span class="mic">💳</span> Debit / Credit Card <span class="chev">›</span></div>
+      <div class="label" style="padding:20px 22px 0;">Recent Transactions</div>
+      <div id="walletTxList"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="screen" id="screen-profile">
+      <div class="profile-hero">
+        <div class="profile-avatar" id="profileAvatar">•</div>
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-rating" id="profileRatingLine">★★★★★ — Passenger Rating</div>
+        <div style="margin-top:10px;" id="driverModeWrap">
+          <button class="btn btn-ghost" style="padding:8px 18px; font-size:12px;" onclick="toggleDriverMode()" id="driverModeBtn">Switch to Driver Mode</button>
+        </div>
+      </div>
+
+      <div class="toggle-item">
+        <div class="ti-label">🎓 Student Discount<div class="ti-sub">10% off with valid school ID</div></div>
+        <button class="switch" id="sw-student" onclick="toggleSwitch(this)"><span class="knob"></span></button>
+      </div>
+      <div class="toggle-item">
+        <div class="ti-label">👴 Senior Citizen Mode<div class="ti-sub">20% off, larger text & priority support</div></div>
+        <button class="switch" id="sw-senior" onclick="toggleSwitch(this)"><span class="knob"></span></button>
+      </div>
+      <div class="toggle-item">
+        <div class="ti-label">👪 Emergency Contact Alerts<div class="ti-sub">Notify family automatically on SOS</div></div>
+        <button class="switch on" id="sw-emergency" onclick="toggleSwitch(this)"><span class="knob"></span></button>
+      </div>
+
+      <div class="menu-item" onclick="toast('Emergency contacts management — coming soon')"><span class="mic">📇</span> Emergency Contacts <span class="chev">›</span></div>
+      <div class="menu-item" onclick="toast('Saved places — coming soon')"><span class="mic">📍</span> Saved Places <span class="chev">›</span></div>
+      <div class="menu-item" onclick="toast('Help & safety center — coming soon')"><span class="mic">🛟</span> Help & Safety Center <span class="chev">›</span></div>
+      <div class="menu-item link-danger" onclick="doLogout()"><span class="mic">🚪</span> Log Out</div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section class="screen" id="screen-admin">
+      <div class="home-header" style="border-radius:0 0 26px 26px;">
+        <div class="row1">
+          <div>
+            <div class="hi">Admin Dashboard</div>
+            <div class="loc">Angkas Ko platform overview</div>
+          </div>
+          <div class="avatar-btn" onclick="doLogout()">🚪</div>
+        </div>
+      </div>
+      <div class="earnings-card" style="margin:16px 22px;">
+        <div class="ecol"><div class="elabel">Passengers</div><div class="eval" id="adminPassengers">0</div></div>
+        <div class="ecol"><div class="elabel">Drivers</div><div class="eval" id="adminDrivers">0</div></div>
+        <div class="ecol"><div class="elabel">Total Rides</div><div class="eval" id="adminRides">0</div></div>
+      </div>
+      <div class="wallet-hero" style="margin-top:0;">
+        <div class="wl">Platform Revenue (15% commission)</div>
+        <div class="wamt">₱<span id="adminRevenue">0.00</span></div>
+      </div>
+      <div class="sectiontitle" style="padding-top:20px;">Driver Verification</div>
+      <div id="adminDriverList"><div class="empty-state">Loading…</div></div>
+      <div class="sectiontitle">Recent Rides</div>
+      <div id="adminRideList"><div class="empty-state">Loading…</div></div>
+    </section>
+
+    <!-- DRIVER MODE -->
+    <section class="screen" id="screen-driver">
+      <div class="home-header" style="border-radius:0 0 26px 26px;">
+        <div class="row1">
+          <div>
+            <div class="hi" id="driverGreet">Kumusta, Driver!</div>
+            <div class="loc" id="driverVehicleLine">—</div>
+          </div>
+          <div class="avatar-btn" onclick="toggleDriverMode()">👨</div>
+        </div>
+      </div>
+      <div class="driver-toggle-bar">
+        <div class="online-pill"><span class="online-dot" id="onlineDot"></span> <span id="onlineLabel">You're Offline</span></div>
+        <button class="switch" id="sw-online" onclick="toggleOnline(this)"><span class="knob"></span></button>
+      </div>
+      <div class="earnings-card">
+        <div class="ecol"><div class="elabel">Today's Earnings</div><div class="eval" id="earningsToday">₱0.00</div></div>
+        <div class="ecol"><div class="elabel">Completed Rides</div><div class="eval" id="earningsRides">0</div></div>
+        <div class="ecol"><div class="elabel">Rating</div><div class="eval" id="earningsRating">— ★</div></div>
+      </div>
+      <div id="requestArea"></div>
+      <div class="label" style="padding: 6px 22px 0;">Today's Completed Rides</div>
+      <div id="driverRideList"><div class="empty-state">No completed rides yet today.</div></div>
+    </section>
+
+  </div><!-- /app-frame -->
+
+  <div class="toast" id="toast"></div>
+
+  <!-- SOS modal -->
+  <div class="modal-overlay" id="sosModal">
+    <div class="modal-sheet">
+      <h3>🆘 Send SOS Alert?</h3>
+      <p>This will immediately share your live location and trip details with Angkas Ko safety support and your emergency contacts.</p>
+      <div class="modal-row">
+        <button class="btn btn-ghost" onclick="closeModal('sosModal')">Cancel</button>
+        <button class="btn" style="background:var(--danger); color:#fff; flex:1;" onclick="sendSOS()">Send Alert</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share trip modal -->
+  <div class="modal-overlay" id="shareModal">
+    <div class="modal-sheet">
+      <h3>📍 Share Trip Status</h3>
+      <p>Send your driver's live location and ETA to a family member or friend.</p>
+      <div class="modal-row">
+        <button class="btn btn-ghost" onclick="closeModal('shareModal')">Not Now</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="closeModal('shareModal'); toast('Trip shared with Emergency Contact')">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottomnav" id="bottomnav">
+    <button class="navbtn active" data-s="home" onclick="go('home')"><span class="ic">🏠</span>Home</button>
+    <button class="navbtn" data-s="activity" onclick="go('activity')"><span class="ic">🕓</span>Activity</button>
+    <button class="navbtn" data-s="wallet" onclick="go('wallet')"><span class="ic">👛</span>Wallet</button>
+    <button class="navbtn" data-s="profile" onclick="go('profile')"><span class="ic">👤</span>Profile</button>
+  </div>
+</div>
+<div class="credit">Angkas Ko — full-stack demo (Node.js + SQLite backend, real accounts & data)</div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
